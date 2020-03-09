@@ -14,3 +14,6 @@ Tiny Model:
 Size: 17KB
 Number of Weights: 11,868
 Speed on iPhone X: 29 FPS
+
+//Install opencv using Conda console
+conda install -c menpo opencv
