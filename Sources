@@ -10,11 +10,3 @@ https://www.kaggle.com/mbkinaci/fruit-images-for-object-detection#apple_14.jpg
 https://towardsdatascience.com/https-medium-com-reina-wang-tw-stochastic-gradient-descent-with-restarts-5f511975163
 https://towardsdatascience.com/gentle-dive-into-math-behind-convolutional-neural-networks-79a07dd44cf9
 youtube.com/watch?v=AgkfIQ4IGaM
-
-Tiny Model:
-Size: 17KB
-Number of Weights: 11,868
-Speed on iPhone X: 29 FPS
-
-//Install opencv using Conda console
-conda install -c menpo opencv
