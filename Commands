@@ -1,0 +1,2 @@
+//Install opencv using Conda console
+conda install -c menpo opencv
