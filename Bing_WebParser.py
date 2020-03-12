@@ -31,24 +31,31 @@ def get_soup(url, header):
     return BeautifulSoup(response, 'html.parser')
 
 def get_query_url(query):
-    return "https://www.bing.com/images/search?q=%s&FORM=HDRSC2" % query
+    return "https://www.bing.com/images/search?q=%s" % query
 
 def extract_images_from_soup(soup,query):
-    extensions = {"jpg","jpeg"}
-    #install chromedriver.exe - https://chromedriver.chromium.org/downloads
+    extensions = {"jpg","jpeg","keys"}
+    ##install chromedriver.exe - https://chromedriver.chromium.org/downloads
     driver = webdriver.Chrome('chromedriver.exe')
     driver.get(get_query_url(query))
-    html = driver.page_source.split('["')
+    html = driver.page_source
+    #to debug html code
+    with open("sample3.txt", "w", encoding="utf-8") as f:
+        f.write(html)
+    #debug - end
     img_count = 1
     imges = []
-    while img_count < 100: #this counter for number of scrolls
+    while img_count < 2: #this counter for number of scrolls
         img_count = img_count+1
         for i in html:
-            if i.startswith('http') and i.split('"')[0].split('.')[-1] in extensions:
+            #print(i)
+            if i.startswith('http'):# and i.split('"')[0] in extensions:
+                print(i.split('"')[0])
                 imges.append(i.split('"')[0])
-        time.sleep(3) #wait for 3 seconds
-        driver.execute_script("window.scrollTo(0, window.scrollY + 500)")
-    return imges
+        #time.sleep(3) #wait for 3 seconds
+        #driver.execute_script("window.scrollTo(0, window.scrollY + 500)")
+    print(imges)
+    #return imges
 
 def extract_images(query, num_images):
     url = get_query_url(query)

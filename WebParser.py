@@ -38,7 +38,12 @@ def extract_images_from_soup(soup,query):
     #install chromedriver.exe - https://chromedriver.chromium.org/downloads
     driver = webdriver.Chrome('chromedriver.exe')
     driver.get(get_query_url(query))
+    # to debug html code
     html = driver.page_source.split('["')
+    text_file = open("sample.txt", "w")
+    n = text_file.write("stark".join(html))
+    text_file.close()
+    # debug - end
     img_count = 1
     imges = []
     while img_count < 10: #this counter for number of scrolls
