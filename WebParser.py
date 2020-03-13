@@ -46,6 +46,9 @@ def extract_images_from_soup(soup,query):
     # debug - end
     img_count = 1
     imges = []
+    #after n number of attempts - driver page gets stuck at "Show More Images"
+    # 1. Manually click on Show More Images tab to load driver content - Works Well
+    # 2. Write proper code - To be added later
     while img_count < 1000: #this counter for number of scrolls
         img_count = img_count+1
         for i in html:
@@ -96,7 +99,7 @@ def run(query, save_directory, num_images=100):
 
 def main():
     parser = argparse.ArgumentParser(description='Scrape Google images')
-    parser.add_argument('-s', '--search', default='door keys', type=str, help='search term')
+    parser.add_argument('-s', '--search', default='keys', type=str, help='search term')
     parser.add_argument('-n', '--num_images', default=1000, type=int, help='num images to save')
     parser.add_argument('-d', '--directory', default='E:/Images', type=str, help='save directory')
     args = parser.parse_args()
