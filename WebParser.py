@@ -40,19 +40,20 @@ def extract_images_from_soup(soup,query):
     driver.get(get_query_url(query))
     # to debug html code
     html = driver.page_source.split('["')
-    text_file = open("sample.txt", "w")
-    n = text_file.write("stark".join(html))
-    text_file.close()
+    #text_file = open("sample.txt", "w")
+    #n = text_file.write("stark".join(html))
+    #text_file.close()
     # debug - end
     img_count = 1
     imges = []
-    while img_count < 10: #this counter for number of scrolls
+    while img_count < 1000: #this counter for number of scrolls
         img_count = img_count+1
         for i in html:
             if i.startswith('http') and i.split('"')[0].split('.')[-1] in extensions:
                 imges.append(i.split('"')[0])
-        time.sleep(3)
+        time.sleep(1)
         driver.execute_script("window.scrollTo(0, window.scrollY + 500)")
+        time.sleep(3) #wait for page to load further
     return imges
 
 def extract_images(query, num_images):
@@ -95,8 +96,8 @@ def run(query, save_directory, num_images=100):
 
 def main():
     parser = argparse.ArgumentParser(description='Scrape Google images')
-    parser.add_argument('-s', '--search', default='keys', type=str, help='search term')
-    parser.add_argument('-n', '--num_images', default=100, type=int, help='num images to save')
+    parser.add_argument('-s', '--search', default='door keys', type=str, help='search term')
+    parser.add_argument('-n', '--num_images', default=1000, type=int, help='num images to save')
     parser.add_argument('-d', '--directory', default='E:/Images', type=str, help='save directory')
     args = parser.parse_args()
     run(args.search, args.directory, args.num_images)
