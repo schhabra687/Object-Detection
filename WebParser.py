@@ -1,5 +1,6 @@
 #pip install selenium - in conda prompt
 from selenium import webdriver
+import os, os.path
 import time
 import argparse
 import itertools
@@ -49,7 +50,7 @@ def extract_images_from_soup(soup,query):
     #after n number of attempts - driver page gets stuck at "Show More Images"
     # 1. Manually click on Show More Images tab to load driver content - Works Well
     # 2. Write proper code - To be added later
-    while img_count < 1000: #this counter for number of scrolls
+    while img_count < 15: #this counter for number of scrolls
         img_count = img_count+1
         for i in html:
             if i.startswith('http') and i.split('"')[0].split('.')[-1] in extensions:
@@ -72,20 +73,24 @@ def get_raw_image(url):
     resp = urlopen(req)
     return resp.read()
 
-def save_image(raw_image, image_type, save_directory):
-    file_name = uuid.uuid4().hex
+def save_image(raw_image, image_type, save_directory,count):
+    file_name = "keys_" + str(count)
     save_path = os.path.join(save_directory, file_name)
     save_path = save_path + '.jpg'
     with open(save_path, 'wb') as image_file:
         image_file.write(raw_image)
 
 def download_images_to_dir(images, save_directory, num_images):
+    #check how many files are there in the directory
+    num_images_present = (len([name for name in os.listdir(save_directory) if os.path.isfile(os.path.join(save_directory, name))]))
+    count = num_images_present + 1 #no need to initalize now at every run
     for i, (url) in enumerate(images):
+        count = count+1
         try:
             logger.info("Making request (%d/%d): %s", i, num_images, url)
             raw_image = get_raw_image(url)
             image_type = 'jpg'
-            save_image(raw_image, image_type, save_directory)
+            save_image(raw_image, image_type, save_directory,count)
         except Exception as e:
             logger.exception(e)
 
@@ -99,7 +104,7 @@ def run(query, save_directory, num_images=100):
 
 def main():
     parser = argparse.ArgumentParser(description='Scrape Google images')
-    parser.add_argument('-s', '--search', default='keys', type=str, help='search term')
+    parser.add_argument('-s', '--search', default='door keys', type=str, help='search term')
     parser.add_argument('-n', '--num_images', default=1000, type=int, help='num images to save')
     parser.add_argument('-d', '--directory', default='E:/Images', type=str, help='save directory')
     args = parser.parse_args()
